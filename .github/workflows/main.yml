@@ -1,0 +1,29 @@
+name: Add b43-firmware to Arch ISO
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Arch Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y arch-install-scripts
+
+      - name: Build Arch ISO
+        run: |
+          sudo ./build.sh -v
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: arch-iso
+          path: ./out/*.iso
