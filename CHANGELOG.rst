@@ -8,6 +8,49 @@ Changelog
 Added
 -----
 
+Changed
+-------
+
+Deprecated
+----------
+
+Fixed
+-----
+
+Removed
+-------
+
+[72] - 2023-08-29
+=================
+
+Added
+-----
+
+- Add tpm2-tools to releng to allow clearing, creating and reading keys on the TPM.
+- Add sequoia-sq and openpgp-card-tools as additional tooling for working with OpenPGP certificates and smartcards.
+
+Changed
+-------
+
+- Moved custom ``mkinitcpio.conf`` files to ``/etc/mkinitcpio.conf.d/archiso.conf``.
+- Mount ``/etc/pacman.d/gnupg`` on tmpfs with option ``noswap`` instead of using ramfs. This ensures there is a limit to
+  the file system size.
+- Enable systemd-networkd's support for IPv6 Privacy Extensions globally instead of per-connection.
+- Moved custom ``sshd_config`` files to ``/ssh/sshd_config.d/10-archiso.conf``
+- Use pcsclite for interfacing with smartcards, since both gnupg and opgpcard support it.
+
+Fixed
+-----
+
+- Sign the root file system image only once.
+- Make sure xorriso does not read its configuration files to prevent interference and unintended behavior.
+
+[71] - 2023-05-28
+=================
+
+Added
+-----
+
 - Added classes for Memtest86+ and UEFI Shell menuentries.
 - Add foot-terminfo and wezterm-terminfo packages to releng to support terminal emulators using them. E.g. when
   installing via SSH.
@@ -22,21 +65,18 @@ Changed
 - Identify the ISO volume via a UUID instead of a file system label in all boot loader configuration files.
 - Update ``pacman.conf`` to match the one shipped with pacman 6.0.2-7 which removes the community repository.
 
-Deprecated
-----------
-
 Fixed
 -----
 
 - Wait for ``network-online.target`` to become active before trying to download the script passed via the ``script=``
   boot parameter.
 - Subdirectories from ``grub/`` are copied to the ISO.
-- Modify the commandline options to a ``cp`` command in ``mkarchiso`` so that the entire script does not exit with failure when a custom ``.bashrc`` file is supplied with the archiso configuration. This fix was needed after **GNU Coreutils** recently changed the behaviour of the ``-n`` (or ``--no-clobber``) commandline option to the ``cp`` command.
+- Modify the commandline options to a ``cp`` command in ``mkarchiso`` so that the entire script does not exit with
+  failure when a custom ``.bashrc`` file is supplied with the archiso configuration. This fix was needed after
+  **GNU Coreutils** recently changed the behaviour of the ``-n`` (or ``--no-clobber``) commandline option to the ``cp``
+  command.
 - Ensure ``SOURCE_DATE_EPOCH`` is read from the ``build_date`` file before ``profiledef.sh`` is sourced to ensure the
   variable has a correct value when used inside ``profiledef.sh``.
-
-Removed
--------
 
 [70] - 2023-02-27
 =================
